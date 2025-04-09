@@ -8,8 +8,15 @@ class ContactController {
   }
 
   // este método serve para mostrar um registro específico
-  show() {
+  async show(request, response) {
+    const { id } = request.params;
+    const contact = await ContactsRepository.findById(id);
 
+    if (!contact) {
+      return response.status(404).json({ error: 'User not found' });
+    }
+
+    return response.json(contact);
   }
 
   // este método serve para criar um novo registro
@@ -23,8 +30,18 @@ class ContactController {
   }
 
   // este método serve para deletar um registro específico
-  delete() {
+  async delete(request, response) {
+    const { id } = request.params;
 
+    const contact = await ContactsRepository.findById(id);
+
+    if (!contact) {
+      return response.status(404).json({ error: 'User not found' });
+    }
+
+    await ContactsRepository.delete(id);
+    // 204 Ok but, No Content
+    return response.sendStatus(204);
   }
 }
 
