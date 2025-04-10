@@ -28,11 +28,35 @@ class ContactsRepository {
     return new Promise((resolve) => resolve(contact));
   }
 
+  findByEmail(email) {
+    return new Promise((resolve) => {
+      const contact = contacts.find((contact) => contact.email === email);
+
+      resolve(contact)
+    });
+  }
+
   delete(id) {
     return new Promise((resolve) => {
       contacts = contacts.filter((contact) => contact.id !== id);
       resolve();
     })
+  }
+
+  create({ name, email, phone, category_id }) {
+    return new Promise((resolve) => {
+      const newContact = {
+        id: uuidV4(),
+        name,
+        email,
+        phone,
+        category_id,
+      };
+
+      contacts.push(newContact);
+
+      resolve(newContact)
+    });
   }
 }
 
