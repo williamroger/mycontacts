@@ -21,7 +21,7 @@ class ContactController {
 
   // este método serve para criar um novo registro
   async store(request, response) {
-    const { name, email, phome, category_id } = request.body;
+    const { name, email, phone, category_id } = request.body;
     const contactExists = await ContactsRepository.findByEmail(email);
 
     if (!name) {
@@ -35,7 +35,7 @@ class ContactController {
     const contact = await ContactsRepository.create({
       name,
       email,
-      phome,
+      phone,
       category_id,
     });
 

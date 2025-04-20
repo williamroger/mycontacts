@@ -5,7 +5,7 @@ let contacts = [
   {
     id: uuidV4(),
     name: 'William Roger',
-    email: 'william@email.com',
+    email: 'williamsss@email.com',
     phone: '123456789',
     category_id: uuidV4(),
   },
@@ -19,22 +19,19 @@ let contacts = [
 ];
 
 class ContactsRepository {
-  findAll() {
-    return new Promise((resolve) => resolve(contacts));
+  async findAll() {
+    const rows = await db.query('SELECT * FROM contacts');
+    return rows;
   }
 
-  findById(id) {
-    const contact = contacts.find((contact) => contact.id === id);
-
-    return new Promise((resolve) => resolve(contact));
+  async findById(id) {
+    const [row] = await db.query('SELECT * FROM contacts WHERE id = $1', [id]);
+    return row;
   }
 
-  findByEmail(email) {
-    return new Promise((resolve) => {
-      const contact = contacts.find((contact) => contact.email === email);
-
-      resolve(contact)
-    });
+  async findByEmail(email) {
+    const [row] = await db.query('SELECT * FROM contacts WHERE email = $1', [email]);
+    return row;
   }
 
   delete(id) {
